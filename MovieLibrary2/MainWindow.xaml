@@ -1,0 +1,53 @@
+﻿<Window x:Name="window" x:Class="MovieLibrary2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MovieLibrary2"
+        xmlns:context="clr-namespace:MovieLibrary2.ViewModel"
+        mc:Ignorable="d"
+        Title="Movie Library" Height="550" Width="725" Closing="Window_Closing" WindowState="Maximized" KeyUp="window_KeyUp">
+    <Window.DataContext>
+        <context:MoviesListView />
+    </Window.DataContext>
+    <Grid Background="Black">
+        <TextBlock Margin="13,5,0,0" TextWrapping="Wrap" Text="{Binding MovieCount}" Height="24" Foreground="White" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <ListBox Background="{x:Null}" x:Name="itemControl" Margin="0,20,0,30" ItemsSource="{Binding MovieList}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}" MouseLeftButtonUp="itemControl_MouseLeftButtonUp">
+            <ListBox.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+            </ListBox.Resources>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Width="{Binding ActualWidth, ElementName=window, Mode=OneWay}" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="Left" Height="225" Margin="3,3,3,3" VerticalAlignment="Top" Width="137" Background="Black" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
+                        <Image Source="{Binding ImagePath}" Margin="3,3,0,0" Height="198" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130"/>
+                        <TextBlock Margin="2,201,2,0" TextWrapping="NoWrap" Text="{Binding DisplayTitle}" Height="24" Foreground="White" TextAlignment="Center"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid Visibility="{Binding DetailModeVisibility}">
+            <Grid.Background>
+                <ImageBrush ImageSource="img/background.jpg"/>
+            </Grid.Background>
+            <Image Margin="61,65,0,0" Source="{Binding SelectedMovie.ImagePath}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" MouseDown="Image_MouseDown" Height="455"/>
+            <Grid VerticalAlignment="Top" Margin="367,124,60,0" Height="395">
+                <TextBox Margin="13,5,0,0" TextWrapping="Wrap" Text="{Binding SelectedMovie.Title}" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="42" Background="{x:Null}" BorderBrush="{x:Null}" CaretBrush="White" IsReadOnly="{Binding IsPreviewMode}">
+                    <TextBox.SelectionBrush>
+                        <SolidColorBrush Color="#FF3399FF"/>
+                    </TextBox.SelectionBrush>
+                </TextBox>
+                <Button x:Name="CloseButton" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3" Click="CloseButton_Click" Height="53" Width="60" Background="{x:Null}" FontSize="18" Foreground="White" >Close</Button>
+                <Button x:Name="WatchButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0,0,60" Height="71" Width="90" Background="{x:Null}" FontSize="16" Foreground="White" Click="WatchButton_Click" >Watch</Button>
+                <Button x:Name="EditButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0,0,3" Background="{x:Null}" FontSize="16" Foreground="White" Width="90" Click="EditButton_Click" Content="{Binding ModeText}"></Button>
+                <Button x:Name="DownloadInfoButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="100,0,0,3" Background="{x:Null}" FontSize="16" Foreground="White" Width="90" Click="DownloadInfoButton_Click" Content="Get Info"></Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MovieLibrary2.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="MovieDBAPIKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">?</Value>
+    </Setting>
+    <Setting Name="MoviesDirectoryPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\Downloads\Movies</Value>
+    </Setting>
+    <Setting Name="DataFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\Dropbox\Covers\LibraryData2.bin</Value>
+    </Setting>
+    <Setting Name="MovieCovers" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\Dropbox\Covers\</Value>
+    </Setting>
+    <Setting Name="NoCover" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\Dropbox\Covers\nocover.png</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
