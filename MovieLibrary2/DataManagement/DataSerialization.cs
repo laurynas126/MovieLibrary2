@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
+using System.Diagnostics;
 
 namespace MovieLibrary2.DataManagement
 {
@@ -28,9 +29,9 @@ namespace MovieLibrary2.DataManagement
                 list = (ICollection<T>)formatter.Deserialize(reader);
                 reader.Close();
             }
-            catch (IOException)
+            catch (IOException ex)
             {
-                MessageBox.Show("File does not exist");
+                Debug.Print(ex.StackTrace);
             }
             return list;
         }

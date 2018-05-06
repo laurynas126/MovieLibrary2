@@ -10,6 +10,74 @@
     <Window.DataContext>
         <context:MoviesListView />
     </Window.DataContext>
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}" x:Key="transparentTextBox">
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="0" 
+                            Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="PART_Content"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{x:Null}"/>
+                    <Setter Property="BorderBrush" Value="{x:Null}"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="{x:Null}"/>
+                    <Setter Property="BorderBrush" Value="{x:Null}"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+
+            </Style.Triggers>
+        </Style>
+        
+        <Style TargetType="{x:Type Button}" x:Key="Button_focusvisual">
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="PART_Content"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="#7F000000"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid Background="Black">
         <TextBlock Margin="13,5,0,0" TextWrapping="Wrap" Text="{Binding MovieCount}" Height="24" Foreground="White" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <ListBox Background="{x:Null}" x:Name="itemControl" Margin="0,20,0,30" ItemsSource="{Binding MovieList}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}" MouseLeftButtonUp="itemControl_MouseLeftButtonUp">
@@ -26,28 +94,55 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid HorizontalAlignment="Left" Height="225" Margin="3,3,3,3" VerticalAlignment="Top" Width="137" Background="Black" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
-                        <Image Source="{Binding ImagePath}" Margin="3,3,0,0" Height="198" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130"/>
+                        <Image Source="{Binding GetImage}" Margin="3,3,0,0" Height="198" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130"/>
                         <TextBlock Margin="2,201,2,0" TextWrapping="NoWrap" Text="{Binding DisplayTitle}" Height="24" Foreground="White" TextAlignment="Center"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button Click="DownloadAllMoviesInfoButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,3" Width="70">Get all info</Button>
         <Grid Visibility="{Binding DetailModeVisibility}">
             <Grid.Background>
                 <ImageBrush ImageSource="img/background.jpg"/>
             </Grid.Background>
-            <Image Margin="61,65,0,0" Source="{Binding SelectedMovie.ImagePath}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" MouseDown="Image_MouseDown" Height="455"/>
+            <Image Margin="61,65,0,0" Source="{Binding SelectedMovie.GetImage}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" MouseDown="Image_MouseDown" Height="455"/>
             <Grid VerticalAlignment="Top" Margin="367,124,60,0" Height="395">
-                <TextBox Margin="13,5,0,0" TextWrapping="Wrap" Text="{Binding SelectedMovie.Title}" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="42" Background="{x:Null}" BorderBrush="{x:Null}" CaretBrush="White" IsReadOnly="{Binding IsPreviewMode}">
-                    <TextBox.SelectionBrush>
-                        <SolidColorBrush Color="#FF3399FF"/>
-                    </TextBox.SelectionBrush>
+                <TextBox Margin="10,5,0,0"
+                         Background="{Binding TextBackground}" 
+                         BorderBrush="{x:Null}" 
+                         BorderThickness="0"
+                         CaretBrush="White"
+                         FontSize="42" 
+                         Foreground="White" 
+                         HorizontalAlignment="Left" 
+                         IsReadOnly="{Binding IsPreviewMode}"
+                         TextWrapping="Wrap" 
+                         Text="{Binding SelectedMovie.Title}" 
+                         VerticalAlignment="Top">
                 </TextBox>
-                <Button x:Name="CloseButton" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3" Click="CloseButton_Click" Height="53" Width="60" Background="{x:Null}" FontSize="18" Foreground="White" >Close</Button>
-                <Button x:Name="WatchButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0,0,60" Height="71" Width="90" Background="{x:Null}" FontSize="16" Foreground="White" Click="WatchButton_Click" >Watch</Button>
-                <Button x:Name="EditButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0,0,3" Background="{x:Null}" FontSize="16" Foreground="White" Width="90" Click="EditButton_Click" Content="{Binding ModeText}"></Button>
-                <Button x:Name="DownloadInfoButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="100,0,0,3" Background="{x:Null}" FontSize="16" Foreground="White" Width="90" Click="DownloadInfoButton_Click" Content="Get Info"></Button>
+                <TextBox Margin="17,66,0,0" 
+                         Background="{Binding TextBackground}" 
+                         BorderBrush="{x:Null}" 
+                         BorderThickness="0"
+                         CaretBrush="White"
+                         Foreground="White" 
+                         FontSize="20"
+                         HorizontalAlignment="Left" 
+                         IsReadOnly="{Binding IsPreviewMode}"
+                         Padding="0"
+                         TextWrapping="Wrap"
+                         Text="{Binding SelectedMovie.Year}"
+                         VerticalAlignment="Top" />
+                <Ellipse Margin="70,79,0,0" Height="7" VerticalAlignment="Top" Fill="White" HorizontalAlignment="Left" Width="7"/>
+                <TextBlock Margin="85,66,0,0" TextWrapping="Wrap" Text="{Binding SelectedMovie.GetRuntime}" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Padding="1"/>
+                <TextBlock Margin="17,100,0,0" TextWrapping="Wrap" Text="{Binding SelectedMovie.Description}" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="1"/>
+                <Button x:Name="CloseButton" Style="{StaticResource Button_focusvisual}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3" Click="CloseButton_Click" Height="53" Width="60" FontSize="18">Close</Button>
+                <Button x:Name="WatchButton" Style="{StaticResource Button_focusvisual}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0,0,61" Height="60" Width="90" FontSize="16" Click="WatchButton_Click" >Watch</Button>
+                <Button x:Name="LinkButton" Style="{StaticResource Button_focusvisual}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0,0,32" FontSize="14" Width="90" Click="OpenExternalLinkButton_Click" Height="30">Open IMDb</Button>
+                <Button x:Name="EditButton" Style="{StaticResource Button_focusvisual}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0,0,3" FontSize="14" Width="90" Click="EditButton_Click" Content="{Binding ModeText}" Height="30"></Button>
+                <Button x:Name="DownloadInfoButton" Style="{StaticResource Button_focusvisual}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="92,0,0,3" FontSize="14" Width="90" Click="DownloadInfoButton_Click" Content="Get Info" Height="30"></Button>
             </Grid>
         </Grid>
     </Grid>
+
 </Window>

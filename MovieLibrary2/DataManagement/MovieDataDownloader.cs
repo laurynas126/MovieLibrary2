@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -16,7 +17,7 @@ namespace MovieLibrary2.DataManagement
         {
             string posterURL = TheMovieDBParser(movie);
             //string posterURL = OMDBApiParser(Movie);
-            if (posterURL != null && posterURL != string.Empty && posterURL != "N/A")
+            if (!File.Exists(movie.ImagePath) && posterURL != null && posterURL != string.Empty && posterURL != "N/A")
             {
                 new System.Net.WebClient().DownloadFile(posterURL, movie.GetImageSavePath() + GetImageExtension(posterURL));
                 movie.ImagePath = movie.GetImageSavePath() + GetImageExtension(posterURL);
@@ -27,6 +28,14 @@ namespace MovieLibrary2.DataManagement
         {
             return "." + url.Split('.').Last();
         }
+
+        private static string GetAddressString(Movie movie)
+        {
+            return @"https://api.themoviedb.org/3/search/movie?"
+                        + $"api_key={MovieLibrary2.Properties.Settings.Default.MovieDBAPIKey}"
+                        + $"&query={movie.Title}"
+                        + ((movie.Year != -1) ? $"&primary_release_year={movie.Year}" : "");
+        }
         public static string TheMovieDBParser(Movie movie)
         {
             string posterURL = null;
@@ -34,10 +43,8 @@ namespace MovieLibrary2.DataManagement
             {
                 try
                 {
-                    string addressString = @"https://api.themoviedb.org/3/search/movie?"
-                        + $"api_key={MovieLibrary2.Properties.Settings.Default.MovieDBAPIKey}"
-                        + $"&query={movie.Title}"
-                        + ((movie.Year != -1) ? $"&primary_release_year={movie.Year}" : "");
+                    string addressString = GetAddressString(movie);
+
                     var requestResult = WebClient.DownloadString(addressString);
                     JObject json = JObject.Parse(requestResult);
                     if (json.Property("results") == null)

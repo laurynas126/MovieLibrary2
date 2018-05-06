@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -13,7 +14,7 @@ using System.Windows.Media.Imaging;
 namespace MovieLibrary2.Model
 {
     [Serializable()]
-    public class Movie : IEquatable<Movie>, IComparable
+    public class Movie : IEquatable<Movie>, IComparable, INotifyPropertyChanged
     {
         public string IMDbID { get; set; }
         public string Title { get; set; }
@@ -21,11 +22,23 @@ namespace MovieLibrary2.Model
         public string Description { get; set; }
         public string UserRating { get; set; }
         public string FilePath { get; set; }
-        public string ImagePath { get; set; } = "";
-        [NonSerialized()] private BitmapImage _coverImage;
-        public BitmapSource CoverImage { get => _coverImage; set { _coverImage = (BitmapImage)value; } }
+
+        private string _imagePath = null;
+        public string ImagePath { get => _imagePath;
+            set
+            {
+                _imagePath = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ImagePath"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("GetImage"));
+            }
+        }
+        public string GetImage => ImagePath ?? Properties.Settings.Default.NoCover;
+
+        [field: NonSerialized] public event PropertyChangedEventHandler PropertyChanged;
+
         public long Size { get; set; }
         public int Runtime { get; set; }
+        public string GetRuntime => Runtime + " min";
         public string DisplayTitle => $"{Title} ({Year})";
         public Movie()
         {
@@ -38,14 +51,6 @@ namespace MovieLibrary2.Model
             ExtractInfo(file.Name);
             CheckImagePath();
             //LoadImage();
-        }
-
-        private void LoadImage()
-        {
-            _coverImage = new BitmapImage();
-            _coverImage.BeginInit();
-            _coverImage.UriSource = new Uri(ImagePath);
-            _coverImage.EndInit();
         }
 
         public void ExtractInfo(string input)
@@ -103,7 +108,7 @@ namespace MovieLibrary2.Model
             }
             if (!File.Exists(ImagePath))
             {
-                ImagePath = Properties.Settings.Default.NoCover;
+                ImagePath = null;
             }
         }
 

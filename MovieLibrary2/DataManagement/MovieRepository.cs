@@ -39,7 +39,9 @@ namespace MovieLibrary2.DataManagement
         public static ICollection<Movie> LoadMovies()
         {
             var list = new List<Movie>();
-            list.AddRange(GetMoviesFromDataFile(Properties.Settings.Default.DataFilePath));
+            var dataFileMovies = GetMoviesFromDataFile(Properties.Settings.Default.DataFilePath);
+            if (dataFileMovies != null && dataFileMovies.Count > 0)
+                list.AddRange(dataFileMovies);
 
             var directoryMovies = GetMoviesFromDirectory(Properties.Settings.Default.MoviesDirectoryPath);
             list.AddRange(directoryMovies.Where(m => !list.Contains(m)));
@@ -61,6 +63,10 @@ namespace MovieLibrary2.DataManagement
 
         public static ICollection<Movie> GetMoviesFromDataFile(string dataFile)
         {
+            if (!File.Exists(dataFile))
+            {
+                return null;
+            }
             var result = DataSerialization.DeserializeList<Movie>(dataFile);
             if (result == null) return null;
             foreach (var mov in result)

@@ -120,6 +120,16 @@ namespace MovieLibrary2
             await ((MoviesListView)DataContext).DownloadInfo();
         }
 
+        private async void DownloadAllMoviesInfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            await ((MoviesListView)DataContext).DownloadAllMoviesInfo();
+        }
+
+        private void OpenExternalLinkButton_Click(object sender, EventArgs e)
+        {
+            ((MoviesListView)DataContext).OpenExternalLink();
+        }
+
         private void window_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
