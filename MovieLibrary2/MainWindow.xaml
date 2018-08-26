@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MovieLibrary2"
         xmlns:context="clr-namespace:MovieLibrary2.ViewModel"
         mc:Ignorable="d"
-        Title="Movie Library" Height="550" Width="725" Closing="Window_Closing" WindowState="Maximized" KeyUp="window_KeyUp">
+        Title="Movie Library" Height="720" Width="1200" Closing="Window_Closing" WindowState="Maximized" KeyUp="window_KeyUp">
     <Window.DataContext>
         <context:MoviesListView />
     </Window.DataContext>
@@ -105,8 +105,8 @@
             <Grid.Background>
                 <ImageBrush ImageSource="img/background.jpg"/>
             </Grid.Background>
-            <Image Margin="61,65,0,0" Source="{Binding SelectedMovie.GetImage}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" MouseDown="Image_MouseDown" Height="455"/>
-            <Grid VerticalAlignment="Top" Margin="367,124,60,0" Height="395">
+            <Image Margin="120,120,0,0" Source="{Binding SelectedMovie.GetImage}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" MouseDown="Image_MouseDown" Height="450"/>
+            <Grid VerticalAlignment="Top" Margin="432,120,120,0" Height="450">
                 <TextBox Margin="10,5,0,0"
                          Background="{Binding TextBackground}" 
                          BorderBrush="{x:Null}" 
@@ -137,10 +137,10 @@
                 <TextBlock Margin="85,66,0,0" TextWrapping="Wrap" Text="{Binding SelectedMovie.GetRuntime}" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Padding="1"/>
                 <TextBlock Margin="17,100,0,0" TextWrapping="Wrap" Text="{Binding SelectedMovie.Description}" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="1"/>
                 <Button x:Name="CloseButton" Style="{StaticResource Button_focusvisual}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3" Click="CloseButton_Click" Height="53" Width="60" FontSize="18">Close</Button>
-                <Button x:Name="WatchButton" Style="{StaticResource Button_focusvisual}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0,0,61" Height="60" Width="90" FontSize="16" Click="WatchButton_Click" >Watch</Button>
-                <Button x:Name="LinkButton" Style="{StaticResource Button_focusvisual}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0,0,32" FontSize="14" Width="90" Click="OpenExternalLinkButton_Click" Height="30">Open IMDb</Button>
+                <Button x:Name="WatchButton" Style="{StaticResource Button_focusvisual}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0,0,71" Height="60" Width="90" FontSize="16" Click="WatchButton_Click" >Watch</Button>
+                <Button x:Name="LinkButton" Style="{StaticResource Button_focusvisual}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0,0,37" FontSize="14" Width="90" Click="OpenExternalLinkButton_Click" Height="30">Open IMDb</Button>
                 <Button x:Name="EditButton" Style="{StaticResource Button_focusvisual}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0,0,3" FontSize="14" Width="90" Click="EditButton_Click" Content="{Binding ModeText}" Height="30"></Button>
-                <Button x:Name="DownloadInfoButton" Style="{StaticResource Button_focusvisual}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="92,0,0,3" FontSize="14" Width="90" Click="DownloadInfoButton_Click" Content="Get Info" Height="30"></Button>
+                <Button x:Name="DownloadInfoButton" Style="{StaticResource Button_focusvisual}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="97,0,0,3" FontSize="14" Width="90" Click="DownloadInfoButton_Click" Content="Get Info" Height="30"></Button>
             </Grid>
         </Grid>
     </Grid>

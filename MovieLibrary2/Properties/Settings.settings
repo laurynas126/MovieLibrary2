@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="MovieDBAPIKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)">?</Value>
+      <Value Profile="(Default)">858aefce542afb6f5d63589758684680</Value>
     </Setting>
     <Setting Name="MoviesDirectoryPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">D:\Downloads\Movies</Value>

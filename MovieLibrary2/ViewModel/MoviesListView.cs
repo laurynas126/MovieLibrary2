@@ -53,10 +53,7 @@ namespace MovieLibrary2.ViewModel
 
         public MoviesListView() { }
 
-        public void ChangeMode()
-        {
-            IsPreviewMode = !IsPreviewMode;
-        }
+        public void ChangeMode() => IsPreviewMode = !IsPreviewMode;
 
         public async Task DownloadInfo()
         {
@@ -91,7 +88,10 @@ namespace MovieLibrary2.ViewModel
 
         public void LaunchMovie()
         {
-            System.Diagnostics.Process.Start(SelectedMovie.FilePath);
+            if (File.Exists(SelectedMovie.FilePath))
+                System.Diagnostics.Process.Start(SelectedMovie.FilePath);
+            else
+                MessageBox.Show($"File {SelectedMovie.FilePath} does not exist!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         public void MovieClick(object item)

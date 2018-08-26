@@ -63,18 +63,18 @@ namespace MovieLibrary2.DataManagement
 
         public static ICollection<Movie> GetMoviesFromDataFile(string dataFile)
         {
+            ICollection<Movie> movieCollection = new List<Movie>();
             if (!File.Exists(dataFile))
-            {
                 return null;
-            }
-            var result = DataSerialization.DeserializeList<Movie>(dataFile);
-            if (result == null) return null;
-            foreach (var mov in result)
+            var deserializedMovieList = DataSerialization.DeserializeList<Movie>(dataFile);
+            if (deserializedMovieList == null)
+                return null;
+            foreach (var mov in deserializedMovieList)
             {
-                if (!File.Exists(mov.FilePath))
-                    continue;
+                if (File.Exists(mov.FilePath))
+                    movieCollection.Add(mov);
             }
-            return result;
+            return movieCollection;
         }
 
         public static void SaveMoviesToDataFile(string dataFile)

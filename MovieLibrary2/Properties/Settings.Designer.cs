@@ -25,7 +25,7 @@ namespace MovieLibrary2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("?")]
+        [global::System.Configuration.DefaultSettingValueAttribute("858aefce542afb6f5d63589758684680")]
         public string MovieDBAPIKey {
             get {
                 return ((string)(this["MovieDBAPIKey"]));

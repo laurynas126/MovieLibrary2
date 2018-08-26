@@ -135,5 +135,10 @@ namespace MovieLibrary2
             if (e.Key == Key.Escape)
                 CloseButton_Click(sender, e);
         }
+
+        private void itemControl_KeyUp(object sender, KeyEventArgs e)
+        {
+            MessageBox.Show(e.Key.ToString());
+        }
     }
 }
