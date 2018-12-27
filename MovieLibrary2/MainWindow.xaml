@@ -43,7 +43,7 @@
 
             </Style.Triggers>
         </Style>
-        
+
         <Style TargetType="{x:Type Button}" x:Key="Button_focusvisual">
             <Setter Property="Background" Value="{x:Null}"/>
             <Setter Property="Foreground" Value="White"/>
@@ -76,15 +76,67 @@
 
             </Style.Triggers>
         </Style>
+        <Style x:Key="ListBoxtemStyleNoHighlighting" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver"/>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected"/>
+                                    <VisualState x:Name="Selected"/>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused"/>
+                                    <VisualState x:Name="Unfocused"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Rectangle x:Name="fillColor" Fill="#FFBADDE9" IsHitTestVisible="False"  
+                                Opacity="0" RadiusY="1" RadiusX="1"/>
+                            <Rectangle x:Name="fillColor2" Fill="#FFBADDE9" IsHitTestVisible="False"  
+                                Opacity="0" RadiusY="1" RadiusX="1"/>
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}"  
+                                Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  
+                                Margin="{TemplateBinding Padding}"/>
+                            <Rectangle x:Name="FocusVisualElement" RadiusY="1" RadiusX="1" Stroke="#FF6DBDD1"  
+                                StrokeThickness="1" Visibility="Collapsed"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid Background="Black">
-        <TextBlock Margin="13,5,0,0" TextWrapping="Wrap" Text="{Binding MovieCount}" Height="24" Foreground="White" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <ListBox Background="{x:Null}" x:Name="itemControl" Margin="0,20,0,30" ItemsSource="{Binding MovieList}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}" MouseLeftButtonUp="itemControl_MouseLeftButtonUp">
+        <TextBlock Margin="13,5,0,0" 
+                   TextWrapping="Wrap" 
+                   Text="{Binding MovieCount}" 
+                   Height="24" 
+                   Foreground="White" 
+                   TextAlignment="Center" 
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Top"/>
+        <ListBox Background="{x:Null}" 
+                 x:Name="itemControl" 
+                 Margin="0,20,0,30" 
+                 ItemsSource="{Binding MovieList}" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                 BorderBrush="{x:Null}" 
+                 MouseLeftButtonUp="itemControl_MouseLeftButtonUp" ItemContainerStyle="{DynamicResource ListBoxtemStyleNoHighlighting}">
             <ListBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
             </ListBox.Resources>
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -93,7 +145,14 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid HorizontalAlignment="Left" Height="225" Margin="3,3,3,3" VerticalAlignment="Top" Width="137" Background="Black" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
+                    <Grid HorizontalAlignment="Left" 
+                          Height="225" 
+                          Margin="3,3,3,3" 
+                          VerticalAlignment="Top" 
+                          Width="137" 
+                          Background="Black" 
+                          MouseEnter="Grid_MouseEnter" 
+                          MouseLeave="Grid_MouseLeave">
                         <Image Source="{Binding GetImage}" Margin="3,3,0,0" Height="198" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130"/>
                         <TextBlock Margin="2,201,2,0" TextWrapping="NoWrap" Text="{Binding DisplayTitle}" Height="24" Foreground="White" TextAlignment="Center"/>
                     </Grid>
@@ -101,6 +160,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Button Click="DownloadAllMoviesInfoButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,3" Width="70">Get all info</Button>
+        <!-- DETAIL MODE -->
         <Grid Visibility="{Binding DetailModeVisibility}">
             <Grid.Background>
                 <ImageBrush ImageSource="img/background.jpg"/>
