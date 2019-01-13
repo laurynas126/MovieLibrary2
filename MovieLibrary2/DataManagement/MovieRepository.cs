@@ -71,7 +71,8 @@ namespace MovieLibrary2.DataManagement
                 return null;
             foreach (var mov in deserializedMovieList)
             {
-                if (File.Exists(mov.FilePath))
+                if (File.Exists(mov.FilePath) &&
+                    !movieCollection.Contains(mov))
                     movieCollection.Add(mov);
             }
             return movieCollection;

@@ -119,7 +119,7 @@ namespace MovieLibrary2.Model
 
         public bool Equals(Movie other)
         {
-            return other.FilePath.Equals(this.FilePath) && other.Size.Equals(this.Size);
+            return other.FilePath.Equals(this.FilePath);
         }
 
         public int CompareTo(object obj)
