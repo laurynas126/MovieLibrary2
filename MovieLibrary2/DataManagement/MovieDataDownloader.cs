@@ -17,7 +17,16 @@ namespace MovieLibrary2.DataManagement
         {
             string posterURL = TheMovieDBParser(movie);
             //string posterURL = OMDBApiParser(Movie);
-            if (!File.Exists(movie.ImagePath) && posterURL != null && posterURL != string.Empty && posterURL != "N/A")
+            if (File.Exists(movie.ImagePath))
+            {
+                return;
+            }
+            movie.ImagePath = FileFinder.GetExistingImage(movie.GetImageSavePath());
+            if (movie.ImagePath != null)
+            {
+                return;
+            }
+            else if (posterURL != null && posterURL != string.Empty && posterURL != "N/A")
             {
                 new System.Net.WebClient().DownloadFile(posterURL, movie.GetImageSavePath() + GetImageExtension(posterURL));
                 movie.ImagePath = movie.GetImageSavePath() + GetImageExtension(posterURL);

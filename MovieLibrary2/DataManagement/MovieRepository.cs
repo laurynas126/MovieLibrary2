@@ -42,7 +42,6 @@ namespace MovieLibrary2.DataManagement
             var dataFileMovies = GetMoviesFromDataFile(Properties.Settings.Default.DataFilePath);
             if (dataFileMovies != null && dataFileMovies.Count > 0)
                 list.AddRange(dataFileMovies);
-
             var directoryMovies = GetMoviesFromDirectory(Properties.Settings.Default.MoviesDirectoryPath);
             list.AddRange(directoryMovies.Where(m => !list.Contains(m)));
 

@@ -44,5 +44,18 @@ namespace MovieLibrary2.DataManagement
             }
             return foundFiles;
         }
+
+        public static string GetExistingImage(string imagePath)
+        {
+            string[] imageFormats = { ".jpg", ".png" };
+            foreach (var format in imageFormats)
+            {
+                if (File.Exists(imagePath + format))
+                {
+                    return imagePath + format;
+                }
+            }
+            return null;
+        }
     }
 }
