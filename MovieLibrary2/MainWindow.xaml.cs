@@ -143,5 +143,14 @@ namespace MovieLibrary2
             }
             ((MoviesListView)DataContext).FilterEvent(e.Key);
         }
+
+        private void window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                CloseButton_Click(sender, e);
+            }
+            ((MoviesListView)DataContext).FilterEvent(e.Key);
+        }
     }
 }

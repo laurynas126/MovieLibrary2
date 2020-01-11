@@ -38,7 +38,16 @@ namespace MovieLibrary2.ViewModel
         public Movie SelectedMovie { get; set; }
         public Visibility DetailModeVisibility { get; set; } = Visibility.Hidden;
 
-        private string filterString = null;
+        private string _filterString = null;
+        public string FilterString 
+        {   get { return _filterString; }
+            private set 
+            {
+                _filterString = value; 
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FilterString")); 
+            } 
+        }
+
         private bool _filterMode = false;
         public bool IsFilterMode
         {
@@ -47,10 +56,11 @@ namespace MovieLibrary2.ViewModel
             {            
                 if (_filterMode && !value)
                 {
-                    filterString = null;
+                    FilterString = null;
                     MovieList = MovieRepository.MovieList;
                 }
                 _filterMode = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsFilterMode"));
             }
         }
 
@@ -134,13 +144,17 @@ namespace MovieLibrary2.ViewModel
         {
             string address = "";
             Movie movie = SelectedMovie;
-            if (movie.IMDbID == null || movie.IMDbID == string.Empty)
+            if (string.IsNullOrEmpty(movie.IMDbID))
+            {
                 address = @"http://www.imdb.com/search/title?"
                 + $"title={movie.Title}"
                 + ((movie.Year != -1) ? $"&release_date={movie.Year}" : "");
+            }
             else
+            {
                 address = @"http://www.imdb.com/title/"
                 + $"{movie.IMDbID}";
+            }
             Uri uri = new Uri(address);
             System.Diagnostics.Process.Start(uri.AbsoluteUri);
         }
@@ -172,7 +186,7 @@ namespace MovieLibrary2.ViewModel
             if (IsFilterMode && 
                (key == Key.Escape ||
                (key == Key.Back &&
-                filterString == string.Empty)))
+                FilterString == string.Empty)))
             {
                 IsFilterMode = false;
                 return;
@@ -186,8 +200,17 @@ namespace MovieLibrary2.ViewModel
 
         private void ApplyFilter(Key key)
         {
-            filterString += KeyToString(key);
-            var filteredList = MovieRepository.MovieList.Where(mov => mov.Title.ToUpper().Contains(filterString));
+            int yearFilter;
+            IEnumerable<Movie> filteredList;
+            FilterString += KeyToString(key);
+            int.TryParse(FilterString, out yearFilter);
+
+            if(yearFilter > 1900 && yearFilter < 2100)
+                filteredList = MovieRepository.MovieList.Where(
+                    mov => mov.Title.ToUpper().Contains(FilterString) || 
+                    mov.Year == yearFilter);
+            else
+                filteredList = MovieRepository.MovieList.Where(mov => mov.Title.ToUpper().Contains(FilterString));
             if (filteredList != null)
             {
                 MovieList = new ObservableCollection<Movie>(filteredList);
@@ -196,9 +219,9 @@ namespace MovieLibrary2.ViewModel
 
         private void DeleteLetter()
         {
-            if (filterString != null && filterString.Length > 0)
+            if (FilterString != null && FilterString.Length > 0)
             {
-                filterString = filterString.Remove(filterString.Length-1, 1);
+                FilterString = FilterString.Remove(FilterString.Length-1, 1);
             }
             //MessageBox.Show(filterString);
         }
@@ -212,7 +235,7 @@ namespace MovieLibrary2.ViewModel
             }
             else if (IsAllowedKey(key))
             {
-                return key.ToString();
+                return KeyValToString(key);
             }
             return null;
         }
@@ -220,7 +243,20 @@ namespace MovieLibrary2.ViewModel
         private bool IsAllowedKey(Key key)
         {
             var allowedKeys = "ABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
-            return allowedKeys.Contains(key.ToString());
+            return allowedKeys.Contains(KeyValToString(key));
+        }
+
+        private string KeyValToString(Key key)
+        {
+            if(key >= Key.D0 && key <= Key.D9)
+            {
+                return ((int)key - 34).ToString();
+            }
+            else if (key >= Key.NumPad0 && key <= Key.NumPad9)
+            {
+                return ((int)key - 74).ToString();
+            }
+            return key.ToString();
         }
     }
 }

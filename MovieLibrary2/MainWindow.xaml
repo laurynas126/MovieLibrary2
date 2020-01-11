@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:MovieLibrary2"
         xmlns:context="clr-namespace:MovieLibrary2.ViewModel"
         mc:Ignorable="d"
-        Title="Movie Library" Height="720" Width="1200" Closing="Window_Closing" WindowState="Maximized" KeyUp="window_KeyUp" MinWidth="1200" MinHeight="720">
+        Title="Movie Library" Height="720" Width="1200" Closing="Window_Closing" WindowState="Maximized" MinWidth="1200" MinHeight="720" KeyDown="window_KeyDown">
     <Window.DataContext>
         <context:MoviesListView />
     </Window.DataContext>
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <Style TargetType="{x:Type TextBox}" x:Key="transparentTextBox">
             <Setter Property="Background" Value="{x:Null}"/>
             <Setter Property="Foreground" Value="White"/>
@@ -117,6 +118,10 @@
     </Window.Resources>
 
     <Grid Background="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="639*"/>
+            <ColumnDefinition Width="553*"/>
+        </Grid.ColumnDefinitions>
         <TextBlock Margin="13,5,0,0" 
                    TextWrapping="Wrap" 
                    Text="{Binding MovieCount}" 
@@ -131,7 +136,7 @@
                  ItemsSource="{Binding MovieList}" 
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                  BorderBrush="{x:Null}" 
-                 MouseLeftButtonUp="itemControl_MouseLeftButtonUp" ItemContainerStyle="{DynamicResource ListBoxtemStyleNoHighlighting}" MouseRightButtonUp="ItemControl_MouseRightButtonUp">
+                 MouseLeftButtonUp="itemControl_MouseLeftButtonUp" ItemContainerStyle="{DynamicResource ListBoxtemStyleNoHighlighting}" MouseRightButtonUp="ItemControl_MouseRightButtonUp" Grid.ColumnSpan="2">
             <ListBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
@@ -159,9 +164,10 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Click="DownloadAllMoviesInfoButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,3" Width="70">Get all info</Button>
+        <TextBlock x:Name="FilterTextBlock" Margin="464,0,378,100" TextWrapping="Wrap" FontSize="36" Background="White" IsEnabled="False" Grid.ColumnSpan="2" Height="56" VerticalAlignment="Bottom" Text="{Binding FilterString, Mode=OneWay}" Width="350" MinWidth="350" HorizontalAlignment="Center" Padding="5,2" Visibility="{Binding IsFilterMode, Converter={StaticResource BoolToVis}}"/>
+        <Button Click="DownloadAllMoviesInfoButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,3" Width="70" Grid.Column="1">Get all info</Button>
         <!-- DETAIL MODE -->
-        <Grid Visibility="{Binding DetailModeVisibility}">
+        <Grid Visibility="{Binding DetailModeVisibility}" d:IsHidden="True" Grid.ColumnSpan="2">
             <Image Source="img/background.jpg" Stretch="Fill" Margin="-5">
                 <Image.Effect>
                     <BlurEffect Radius="15"/>
