@@ -88,6 +88,11 @@ namespace MovieLibrary2
             listBox.SelectedIndex = -1;
         }
 
+        private void ItemControl_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            itemControl.SelectedIndex = -1;
+        }
+
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             ((MoviesListView)DataContext).CloseDetail();
@@ -133,12 +138,10 @@ namespace MovieLibrary2
         private void window_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
+            {
                 CloseButton_Click(sender, e);
-        }
-
-        private void itemControl_KeyUp(object sender, KeyEventArgs e)
-        {
-            MessageBox.Show(e.Key.ToString());
+            }
+            ((MoviesListView)DataContext).FilterEvent(e.Key);
         }
     }
 }

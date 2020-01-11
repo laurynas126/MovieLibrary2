@@ -73,7 +73,7 @@ namespace MovieLibrary2.DataManagement
                         movie.Description = json["overview"].ToString();
                         movie.UserRating = json["vote_average"].ToString();
                         movie.Runtime = (int)json["runtime"];
-                        posterURL = @"https://image.tmdb.org/t/p/w342" + json["poster_path"].ToString();
+                        posterURL = @"https://image.tmdb.org/t/p/w500" + json["poster_path"].ToString();
                     }
                 }
                 catch (NullReferenceException ex)

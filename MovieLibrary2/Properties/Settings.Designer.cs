@@ -12,7 +12,7 @@ namespace MovieLibrary2.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.4.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -20,18 +20,6 @@ namespace MovieLibrary2.Properties {
         public static Settings Default {
             get {
                 return defaultInstance;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string MovieDBAPIKey {
-            get {
-                return ((string)(this["MovieDBAPIKey"]));
-            }
-            set {
-                this["MovieDBAPIKey"] = value;
             }
         }
         
@@ -49,7 +37,7 @@ namespace MovieLibrary2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Dropbox\\Covers\\LibraryData2.bin")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Laurynas\\Documents\\MovieLibrary\\LibraryData.bin")]
         public string DataFilePath {
             get {
                 return ((string)(this["DataFilePath"]));
@@ -61,7 +49,7 @@ namespace MovieLibrary2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Dropbox\\Covers\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Laurynas\\Documents\\MovieLibrary\\Covers")]
         public string MovieCovers {
             get {
                 return ((string)(this["MovieCovers"]));
@@ -73,13 +61,37 @@ namespace MovieLibrary2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Dropbox\\Covers\\nocover.png")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Laurynas\\Documents\\MovieLibrary\\Covers\\nocover.png")]
         public string NoCover {
             get {
                 return ((string)(this["NoCover"]));
             }
             set {
                 this["NoCover"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SettingsPath {
+            get {
+                return ((string)(this["SettingsPath"]));
+            }
+            set {
+                this["SettingsPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public string MovieDBAPIKey {
+            get {
+                return ((string)(this["MovieDBAPIKey"]));
+            }
+            set {
+                this["MovieDBAPIKey"] = value;
             }
         }
     }

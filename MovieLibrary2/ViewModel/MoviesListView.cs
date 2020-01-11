@@ -11,6 +11,7 @@ using System.Windows;
 using System.IO;
 using System.Windows.Controls;
 using System.Threading;
+using System.Windows.Input;
 
 namespace MovieLibrary2.ViewModel
 {
@@ -18,12 +19,40 @@ namespace MovieLibrary2.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<Movie> MovieList => MovieRepository.MovieList;
+        private ObservableCollection<Movie> _MovieList = MovieRepository.MovieList;
+        public ObservableCollection<Movie> MovieList
+        {
+            get
+            {
+                return _MovieList;
+            }
+            set
+            {
+                _MovieList = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MovieList"));
+            }
+        }
 
         public string MovieCount => MovieList.Count + " Movies";
 
         public Movie SelectedMovie { get; set; }
         public Visibility DetailModeVisibility { get; set; } = Visibility.Hidden;
+
+        private string filterString = null;
+        private bool _filterMode = false;
+        public bool IsFilterMode
+        {
+            get { return _filterMode; }
+            set
+            {            
+                if (_filterMode && !value)
+                {
+                    filterString = null;
+                    MovieList = MovieRepository.MovieList;
+                }
+                _filterMode = value;
+            }
+        }
 
         private bool _previewMode = true;
         public bool IsPreviewMode
@@ -128,6 +157,70 @@ namespace MovieLibrary2.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedMovie"));
             //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MovieList.ImagePath"));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DetailModeVisibility"));
+        }
+
+        public void FilterEvent(Key key)
+        {
+            if (DetailModeVisibility == Visibility.Visible)
+            {
+                return;
+            }
+            if (key == Key.Back)
+            {
+                DeleteLetter();
+            }
+            if (IsFilterMode && 
+               (key == Key.Escape ||
+               (key == Key.Back &&
+                filterString == string.Empty)))
+            {
+                IsFilterMode = false;
+                return;
+            }
+            else if (!IsFilterMode && IsAllowedKey(key))
+            {
+                IsFilterMode = true;
+            }
+            ApplyFilter(key);
+        }
+
+        private void ApplyFilter(Key key)
+        {
+            filterString += KeyToString(key);
+            var filteredList = MovieRepository.MovieList.Where(mov => mov.Title.ToUpper().Contains(filterString));
+            if (filteredList != null)
+            {
+                MovieList = new ObservableCollection<Movie>(filteredList);
+            }
+        }
+
+        private void DeleteLetter()
+        {
+            if (filterString != null && filterString.Length > 0)
+            {
+                filterString = filterString.Remove(filterString.Length-1, 1);
+            }
+            //MessageBox.Show(filterString);
+        }
+
+        private string KeyToString(Key key)
+        {
+
+            if (key == Key.Space)
+            {
+                return " ";
+            }
+            else if (IsAllowedKey(key))
+            {
+                return key.ToString();
+            }
+            return null;
+        }
+
+        private bool IsAllowedKey(Key key)
+        {
+            var allowedKeys = "ABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+            return allowedKeys.Contains(key.ToString());
         }
     }
 }

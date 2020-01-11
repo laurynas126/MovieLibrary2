@@ -2,20 +2,23 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MovieLibrary2.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="MovieDBAPIKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="MoviesDirectoryPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">D:\Downloads\Movies</Value>
     </Setting>
     <Setting Name="DataFilePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\Dropbox\Covers\LibraryData2.bin</Value>
+      <Value Profile="(Default)">C:\Users\Laurynas\Documents\MovieLibrary\LibraryData.bin</Value>
     </Setting>
     <Setting Name="MovieCovers" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\Dropbox\Covers\</Value>
+      <Value Profile="(Default)">C:\Users\Laurynas\Documents\MovieLibrary\Covers</Value>
     </Setting>
     <Setting Name="NoCover" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\Dropbox\Covers\nocover.png</Value>
+      <Value Profile="(Default)">C:\Users\Laurynas\Documents\MovieLibrary\Covers\nocover.png</Value>
+    </Setting>
+    <Setting Name="SettingsPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MovieDBAPIKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
 </SettingsFile>
